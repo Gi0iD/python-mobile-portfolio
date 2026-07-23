@@ -35,3 +35,5 @@ An economy and resource-management simulator built to test a pragmatic survival 
 * **Input Validation Missing (Crash Vulnerability):** Navigating menus and buying quantities requires raw inputs that are immediately forced into integer typecasts (e.g., `int(input())`). On a mobile keyboard, mistyping a letter instead of a number throws an unhandled `ValueError` crash, completely destroying the player's saved simulation data.
 
 * **Missing Negative Loop Logic (Code Coverage Gap):** While mapping out economic conditions, I detected a complete drop in test coverage for Super Rare items during negative economies (`mult == -1` and `mult == -2`). The code blocks simply do not exist, meaning the application silences user intent without providing an error message.
+
+* **🧹 The "Wiper" Defensive Patch:** To secure the simulation's economy without over-complicating the mobile architecture, I implemented a local state-clearing mechanism (`x = 0`) directly before transaction initiation. This effectively acts as a logic wiper, ensuring that missing conditional coverage paths default to zero and completely blocks the currency duplication exploit.
