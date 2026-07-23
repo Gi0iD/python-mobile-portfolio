@@ -21,3 +21,17 @@ A deep, text-based survival simulator featuring dynamic state management (health
 
 * **Custom Persistence Engine:** To achieve data persistence on a mobile device without relying on external databases, I engineered a self-writing data module (`cmsave.py`). The main loop writes state updates directly as native Python classes, allowing instant type recognition upon re-importing.
 * **Error & Boundary Validation:** Implements manual verification routines (`wi()`, `nem()`, `ws()`) to catch unexpected user inputs and prevent unhandled application exceptions during gameplay execution cycles.
+
+
+## 🎮 2. Games (Category 2)
+
+### 💎 Ultra Rare (ver: 85)
+An economy and resource-management simulator built to test a pragmatic survival hypothesis: *Can a card collector survive the daily grind despite an unpredictable, volatile market economy?*
+
+* **The BSIT Pragmatic Audit:** Looking back at the code I built years ago on a whim, I treat this script as a personal QA workshop to ruthlessly critique my own logic and find where the seams burst under pressure.
+
+* **Global State Contamination (Scoping Failure):** The standalone `sell()` function checks a variable `x` that it does not own, relying entirely on the outer loop modifying a global variable right before execution. If the execution order breaks, `sell()` operates on stale data from completely different item tiers.
+
+* **Input Validation Missing (Crash Vulnerability):** Navigating menus and buying quantities requires raw inputs that are immediately forced into integer typecasts (e.g., `int(input())`). On a mobile keyboard, mistyping a letter instead of a number throws an unhandled `ValueError` crash, completely destroying the player's saved simulation data.
+
+* **Missing Negative Loop Logic (Code Coverage Gap):** While mapping out economic conditions, I detected a complete drop in test coverage for Super Rare items during negative economies (`mult == -1` and `mult == -2`). The code blocks simply do not exist, meaning the application silences user intent without providing an error message.
